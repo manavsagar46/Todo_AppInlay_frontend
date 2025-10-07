@@ -13,7 +13,7 @@ function App() {
 
   const fetchTasks = async () => {
     const query = new URLSearchParams(filter).toString();
-    const res = await axios.get(`http://localhost:5000/task?${query}`);
+    const res = await axios.get(`https://todo-app-inlay-backend.vercel.app${query}`);
     setTasks(res.data);
   };
 
@@ -23,7 +23,7 @@ function App() {
 
   const handleAdd = async () => {
     if (!form.title || !form.description) return;
-    await axios.post("http://localhost:5000/task", form);
+    await axios.post("https://todo-app-inlay-backend.vercel.app/task", form);
     setForm({
       title: "",
       description: "",
@@ -34,7 +34,7 @@ function App() {
   };
 
   const handleDelete = async (id) => {
-    await axios.delete(`http://localhost:5000/task/${id}`);
+    await axios.delete(`https://todo-app-inlay-backend.vercel.app/${id}`);
     fetchTasks();
   };
 
