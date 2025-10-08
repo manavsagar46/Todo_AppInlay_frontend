@@ -15,7 +15,7 @@ function App() {
 
   const fetchTasks = async () => {
     const query = new URLSearchParams(filter).toString();
-    const res = await axios.get(`${BASE_URL}/tasks?${query}`);
+    const res = await axios.get(`${BASE_URL}/task?${query}`);
     setTasks(res.data);
   };
 
