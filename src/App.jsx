@@ -13,11 +13,18 @@ function App() {
   });
   const [filter, setFilter] = useState({});
 
+  // const fetchTasks = async () => {
+  //   const query = new URLSearchParams(filter).toString();
+  //   const res = await axios.get(`${BASE_URL}/task?${query}`);
+  //   setTasks(res.data);
+  // };
+
   const fetchTasks = async () => {
-    const query = new URLSearchParams(filter).toString();
-    const res = await axios.get(`${BASE_URL}/task?${query}`);
-    setTasks(res.data);
-  };
+  const query = new URLSearchParams(filter).toString();
+  const url = query ? `${BASE_URL}/task?${query}` : `${BASE_URL}/task`;
+  const res = await axios.get(url);
+  setTasks(res.data);
+};
 
   useEffect(() => {
     fetchTasks();
