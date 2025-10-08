@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-const BASE_URL = "https://todo-app-inlay-backend.vercel.app/api";
+const BASE_URL = "https://todo-app-inlay-backend.vercel.app";
 
 function App() {
   const [tasks, setTasks] = useState([]);
