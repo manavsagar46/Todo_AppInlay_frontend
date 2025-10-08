@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+const BASE_URL = "https://todo-app-inlay-backend.vercel.app/api";
+
 function App() {
   const [tasks, setTasks] = useState([]);
   const [form, setForm] = useState({
@@ -13,7 +15,7 @@ function App() {
 
   const fetchTasks = async () => {
     const query = new URLSearchParams(filter).toString();
-    const res = await axios.get(`https://todo-app-inlay-backend.vercel.app${query}`);
+    const res = await axios.get(`${BASE_URL}/tasks?${query}`);
     setTasks(res.data);
   };
 
@@ -23,7 +25,7 @@ function App() {
 
   const handleAdd = async () => {
     if (!form.title || !form.description) return;
-    await axios.post("https://todo-app-inlay-backend.vercel.app/task", form);
+    await axios.post(`${BASE_URL}/task`, form);
     setForm({
       title: "",
       description: "",
@@ -34,7 +36,16 @@ function App() {
   };
 
   const handleDelete = async (id) => {
-    await axios.delete(`https://todo-app-inlay-backend.vercel.app/${id}`);
+    await axios.delete(`${BASE_URL}/task/${id}`);
+    fetchTasks();
+  };
+
+  const toggleStatus = async (task) => {
+    const newStatus = task.status === "Complete" ? "Incomplete" : "Complete";
+    await axios.put(`${BASE_URL}/task/${task._id}`, {
+      ...task,
+      status: newStatus,
+    });
     fetchTasks();
   };
 
@@ -111,15 +122,7 @@ function App() {
                     ? "bg-yellow-500 hover:bg-yellow-600 text-white"
                     : "bg-green-400 hover:bg-green-500 text-white"
                 }`}
-                onClick={async () => {
-                  const newStatus =
-                    t.status === "Complete" ? "Incomplete" : "Complete";
-                  await axios.put(`http://localhost:5000/task/${t._id}`, {
-                    ...t,
-                    status: newStatus,
-                  });
-                  fetchTasks();
-                }}
+                onClick={() => toggleStatus(t)}
               >
                 {t.status === "Complete" ? "Mark Incomplete" : "Mark Complete"}
               </button>
